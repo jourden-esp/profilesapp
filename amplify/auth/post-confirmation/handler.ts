@@ -1,8 +1,12 @@
 import type { PostConfirmationTriggerHandler } from "aws-lambda";
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/api";
-import { env } from "../../../.amplify/auth/post-confirmation";
-import { createTodo } from "./graphql/mutations"; // Changed to createTodo
+
+// This is the official way to import environment variables in Amplify Gen 2
+// @ts-ignore
+import { env } from "$amplify/env/post-confirmation"; 
+
+import { createTodo } from "./graphql/mutations";
 
 Amplify.configure(
   {
@@ -34,10 +38,11 @@ const client = generateClient({ authMode: "iam" });
 
 export const handler: PostConfirmationTriggerHandler = async (event) => {
   await client.graphql({
-    query: createTodo, // Changed to createTodo
+    query: createTodo,
     variables: {
       input: {
         content: `Welcome to the app, ${event.userName}!`,
+        isDone: false,
       },
     },
   });
