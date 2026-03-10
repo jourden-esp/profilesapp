@@ -42,7 +42,6 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
     variables: {
       input: {
         content: `Welcome to the app, ${event.userName}!`,
-        isDone: false,
       },
     },
   });
